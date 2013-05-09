@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date 5/9/2013 1:19:29 PM
+EESchema Schematic File Version 2  date 5/9/2013 11:04:18 PM
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -157,7 +157,7 @@ P0.9
 Text Label 3600 3450 0    60   ~ 0
 P0.8
 Text Label 3600 3250 0    60   ~ 0
-P1.6
+P0.6
 Text Label 3600 3350 0    60   ~ 0
 P0.7
 Text Label 3600 3150 0    60   ~ 0
