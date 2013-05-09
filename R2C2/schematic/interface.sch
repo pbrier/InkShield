@@ -1,0 +1,239 @@
+EESchema Schematic File Version 2  date 5/9/2013 1:19:29 PM
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:special
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:interface-cache
+EELAYER 25  0
+EELAYER END
+$Descr A4 11700 8267
+encoding utf-8
+Sheet 1 1
+Title "Inkshieldk R2C2 interface"
+Date "9 may 2013"
+Rev "1"
+Comp "KekkeTek"
+Comment1 "peter brier"
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+Wire Wire Line
+	8400 3950 8400 3450
+Wire Wire Line
+	8150 4050 3850 4050
+Wire Wire Line
+	8150 4050 8150 3650
+Wire Wire Line
+	8150 3650 7850 3650
+Wire Wire Line
+	7550 3550 4950 3550
+Wire Wire Line
+	7550 3350 4950 3350
+Wire Wire Line
+	8150 3350 8150 2950
+Wire Wire Line
+	7100 2450 8250 2450
+Wire Notes Line
+	3250 2000 3250 4150
+Wire Wire Line
+	6350 3950 6350 3750
+Wire Wire Line
+	4950 2450 6300 2450
+Wire Wire Line
+	3600 3850 3850 3850
+Wire Wire Line
+	3850 3850 3850 4050
+Wire Notes Line
+	3250 2000 6100 2000
+Wire Notes Line
+	6100 2000 6100 4150
+Wire Notes Line
+	6100 4150 3250 4150
+Wire Wire Line
+	6350 3750 4950 3750
+Wire Wire Line
+	7850 3550 8250 3550
+Wire Wire Line
+	8150 3350 7850 3350
+Wire Wire Line
+	8150 2950 4950 2950
+Wire Wire Line
+	8250 3550 8250 2450
+Wire Wire Line
+	4950 3450 7550 3450
+Wire Wire Line
+	4950 3650 7550 3650
+Wire Wire Line
+	8400 3450 7850 3450
+Text Label 7850 3550 0    60   ~ 0
++12V
+$Comp
+L GND #PWR?
+U 1 1 518B80AC
+P 8400 3950
+F 0 "#PWR?" H 8400 3950 30  0001 C CNN
+F 1 "GND" H 8400 3880 30  0001 C CNN
+	1    8400 3950
+	1    0    0    -1  
+$EndComp
+Text Notes 7500 3200 0    60   ~ 0
+INK_SHIELD
+$Comp
+L GND #PWR?
+U 1 1 518B8189
+P 6350 3950
+F 0 "#PWR?" H 6350 3950 30  0001 C CNN
+F 1 "GND" H 6350 3880 30  0001 C CNN
+	1    6350 3950
+	1    0    0    -1  
+$EndComp
+Text Notes 6300 2150 0    60   ~ 0
+note: LM7812 can be omitted if VMM to R2C2 < 15V
+$Comp
+L GND #PWR?
+U 1 1 518B80B0
+P 6700 2750
+F 0 "#PWR?" H 6700 2750 30  0001 C CNN
+F 1 "GND" H 6700 2680 30  0001 C CNN
+	1    6700 2750
+	1    0    0    -1  
+$EndComp
+$Comp
+L LM7812 U1
+U 1 1 518B8051
+P 6700 2500
+F 0 "U1" H 6850 2304 60  0000 C CNN
+F 1 "LM7812" H 6700 2700 60  0000 C CNN
+	1    6700 2500
+	1    0    0    -1  
+$EndComp
+Text Label 4950 3250 0    60   ~ 0
+P2.2/EXP_PWM4_Buzzer
+Text Label 4950 3150 0    60   ~ 0
+P2.3/EXP_PWM3_Fan
+Text Label 4950 3050 0    60   ~ 0
+P2.0/EXP_PWM2_TXD1
+Text Label 4950 2950 0    60   ~ 0
+P2.1/EXP_PWM1_RXD1
+Text Label 4950 2850 0    60   ~ 0
+P1.15/EXP_IO1
+Text Label 4950 2750 0    60   ~ 0
+P4.28/DBG_TXD
+Text Label 4950 2650 0    60   ~ 0
+P4.29/DBG_RXD
+Text Label 3600 3750 0    60   ~ 0
+P0.26
+Text Label 3600 3650 0    60   ~ 0
+P0.25
+Text Label 3600 3550 0    60   ~ 0
+P0.9
+Text Label 3600 3450 0    60   ~ 0
+P0.8
+Text Label 3600 3250 0    60   ~ 0
+P1.6
+Text Label 3600 3350 0    60   ~ 0
+P0.7
+Text Label 3600 3150 0    60   ~ 0
+P1.8
+Text Label 3600 3050 0    60   ~ 0
+P1.4
+Text Label 3600 2950 0    60   ~ 0
+P1.1
+Text Label 3600 2850 0    60   ~ 0
+P1.31/EXP_AD1
+Text Label 3600 2750 0    60   ~ 0
+USB_DP
+Text Label 3600 2650 0    60   ~ 0
+USB_DN
+Text Label 3600 2550 0    60   ~ 0
+USB_PWR
+Text Label 3600 2450 0    60   ~ 0
+USB_PPWR*
+Text Notes 3350 2150 0    60   ~ 0
+R2C2 Expansion connectors
+NoConn ~ 4950 3850
+Text Label 4950 3650 0    60   ~ 0
+P1.14
+Text Label 4950 3550 0    60   ~ 0
+P1.10
+Text Label 4950 3450 0    60   ~ 0
+P1.9
+Text Label 4950 3350 0    60   ~ 0
+P1.0
+Text Label 3600 3850 0    60   ~ 0
++5V
+Text Label 7550 3650 2    60   ~ 0
+D
+Text Label 7550 3550 2    60   ~ 0
+C
+Text Label 7550 3450 2    60   ~ 0
+B
+Text Label 7550 3350 2    60   ~ 0
+A
+Text Label 7850 3350 0    60   ~ 0
+PULSE
+Text Label 7850 3450 0    60   ~ 0
+GND
+Text Label 7850 3650 0    60   ~ 0
++5V
+Text Label 4950 3750 0    60   ~ 0
+GND
+Text Label 4950 2550 0    60   ~ 0
+3V3
+Text Label 4950 2450 0    60   ~ 0
+VMM
+$Comp
+L HEADER_15 J18
+U 1 1 518B788A
+P 3500 3150
+F 0 "J18" H 3500 3950 60  0000 C CNN
+F 1 "R2C2" H 3500 2350 60  0000 C CNN
+	1    3500 3150
+	-1   0    0    -1  
+$EndComp
+$Comp
+L HEADER_4X2 P3
+U 1 1 518B77D2
+P 7700 3500
+F 0 "P3" H 7700 3750 60  0000 C CNN
+F 1 "AUX_IN" H 7700 3250 60  0000 C CNN
+	1    7700 3500
+	1    0    0    -1  
+$EndComp
+$Comp
+L HEADER_15 J20
+U 1 1 518B77AC
+P 4850 3150
+F 0 "J20" H 4850 3950 60  0000 C CNN
+F 1 "R2C2" H 4850 2350 60  0000 C CNN
+	1    4850 3150
+	-1   0    0    -1  
+$EndComp
+$EndSCHEMATC
