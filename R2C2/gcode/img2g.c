@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <memory.h>
+#include <time.h>       /* time_t, struct tm, time, localtime, asctime */
+
 
 // image datatype
 typedef struct Image
@@ -25,7 +27,7 @@ Image *pgm_open(char *name)
   while(state != 10)
   {
     fgets(line, sizeof(line)-1, fp);
-    printf("\n%d '%s'\n", state, line);
+    // printf("; \n%d '%s'\n", state, line);
     if ( line[0] == '#' ) 
       continue;
     switch ( state )
@@ -40,12 +42,12 @@ Image *pgm_open(char *name)
         break;
       case 1:
         sscanf(line, "%d %d", &img->w, &img->h);
-        printf("Image: %dx%d pixels\n", img->w, img->h);
+        printf("; Image: %dx%d pixels\n", img->w, img->h);
         state = 2;
         break;
       case 2:
         sscanf(line, "%d", &img->m);
-        printf("Image: max value=%d\n", img->m);
+        printf("; Image: max value=%d\n", img->m);
         img->d = (img->m > 255 ? 2 : 1);
         img->p = img->w * img->d;
         img->b = malloc(img->w*img->h*img->d);
@@ -64,10 +66,10 @@ Image *pgm_open(char *name)
 **/
 void dump(Image *img)
 {
-  printf("Image: %dx%d (%d bytes/pixel), max=%d\n", img->w, img->h, img->d, img->m);
+  printf("; Image: %dx%d (%d bytes/pixel), max=%d\n", img->w, img->h, img->d, img->m);
   for(int y=0; y<img->h; y++)
   {
-    printf("\n");
+    printf("\n; ");
     for(int x=0; x<img->w; x++)
     {
       if ( *(img->b + img->p * y + x) == 0xFF )
@@ -104,16 +106,36 @@ int main(int argc, char *argv[])
   int x,y,bit=0;
   Image *img;
   unsigned char line[10000], *l,len; 
- 
+  
+  time_t rawtime;
+  struct tm * timeinfo;
+
   double dy=NOZZLES * (INCH/DPI), dx, de, py=0, pe=0;
  
-  printf("Open %s\n", argv[1]);
+  printf("; Open %s\n", argv[1]);
   img = pgm_open(argv[1]);
-  printf("Dump...\n");
-  dump(img);
+  printf("; Dump...\n");
+  // dump(img);
  
   dx = (INCH/DPI) * img->w;
   de = img->w / PPI;
+
+  time ( &rawtime );
+  timeinfo = localtime ( &rawtime );
+   
+  printf(
+   "\n; Converted file, using img2g, from '%s' (%dx%d pixels)\n"
+   "; Converted on %s\n"
+   "G21 ; millimeters\n"
+   "G92 X0 Y0 E0 Z0; zero\n"
+   "G90; absolute positions\n"
+   "M200 E1200 ; 1200 pulses/mm (nore: we need 12 pulses per x-pixel)\n"
+   "M700 S4095  ; enable all nozzles\n"
+   "M701 S10  ; pulse duration 5usec\n"
+   "G1 F2400\n",
+   argv[1], img->w, img->h,  asctime (timeinfo)
+  );
+ 
  
   // write all lines
   for(int y=0; y<img->h; y+=NOZZLES)
@@ -139,13 +161,14 @@ int main(int argc, char *argv[])
       }
     }
    
-    printf("\n");
+   // output the lines
+    printf("\nG4\n");
     printf("G1 X0 Y%f\n", (float)py); 
+    printf("G4\nM702 x");
     dump_hex(line, len);
     pe += de;
-    printf("\nG1 X%f Y%f E%f\n", (float)dx, (float)py, (float)pe); 
+    printf("\nG4\nG1 X%f Y%f E%f\n", (float)5*dx, (float)py, (float)pe); 
     py += dy;
-    printf("\n");
 
   }
   
