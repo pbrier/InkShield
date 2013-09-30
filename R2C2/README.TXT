@@ -60,9 +60,11 @@ Together with the bitmask function you should be able to make some funky drawing
    G1 X10 E30 ; move and eject only from nozzle 1
    
 
+M702 xAABBBCCC......CCCBBBAAA
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Buffer hex data string, to clock out during next E movements. 
+Three nibbles make up one shot for the printhead (12 nozzles).
 
-A next firmware version will implement data buffering!
-(don't ask me when :-) 
 
 
 Peter Brier
