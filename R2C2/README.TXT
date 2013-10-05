@@ -64,6 +64,17 @@ M702 xAABBBCCC......CCCBBBAAA
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Buffer hex data string, to clock out during next E movements. 
 Three nibbles make up one shot for the printhead (12 nozzles).
+Data is added to the buffer. The buffer is read during the next E movement.
+
+M703
+~~~~
+Reset the pixel write buffer pointer to the start. 
+
+
+TODO:
+~~~~~
+Implement FIFO for pixel data, including a current status update (how much space is left in the FIFO)
+to be able to write "endless" images. 
 
 
 
