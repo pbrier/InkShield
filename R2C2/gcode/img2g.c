@@ -11,7 +11,8 @@ typedef struct Image
   unsigned char *b; // buffer
 } Image;
 
-
+int fast = 2000, slow=600; 
+  
 /**
 *** Open PGM file
 **/
@@ -21,6 +22,7 @@ Image *pgm_open(char *name)
   FILE *fp = fopen(name, "rb");
   char line[256];
   int state = 0;
+
   
   if ( fp == NULL ) return NULL;
   img = malloc(sizeof(Image));
@@ -86,8 +88,16 @@ void dump(Image *img)
 **/
 void dump_hex(unsigned char *d, int len)
 {
-  for(int i=0; i<len; i++)
-    printf("%02X", (int)*d++);
+  int i = -1;
+  printf("; len=%d\n", len);
+  printf("M703\n");
+
+  while ( len )
+  {
+    printf("\nM702 x");
+    for(i=0; i<35 && len; i++, len--)
+      printf("%02X", (int)*d++);
+  }
 }
 
 
@@ -103,9 +113,9 @@ void dump_hex(unsigned char *d, int len)
 **/
 int main(int argc, char *argv[])
 {
-  int x,y,bit=0;
+  int bit, len;
   Image *img;
-  unsigned char line[10000], *l,len; 
+  unsigned char line[100000], *l; 
   
   time_t rawtime;
   struct tm * timeinfo;
@@ -132,7 +142,7 @@ int main(int argc, char *argv[])
    "M200 E1200 ; 1200 pulses/mm (nore: we need 12 pulses per x-pixel)\n"
    "M700 S4095  ; enable all nozzles\n"
    "M701 S10  ; pulse duration 5usec\n"
-   "G1 F2400\n",
+   "G1 F600\n",
    argv[1], img->w, img->h,  asctime (timeinfo)
   );
  
@@ -142,6 +152,7 @@ int main(int argc, char *argv[])
   {
     l = line;
     len = 0;
+    bit = 0;
     memset(line, 0, sizeof(line));
     for(int x=0; x < img->w; x++)
     {
@@ -163,13 +174,19 @@ int main(int argc, char *argv[])
    
    // output the lines
     printf("\nG4\n");
-    printf("G1 X0 Y%f\n", (float)py); 
-    printf("G4\nM702 x");
+    printf("G1 F%d X0 Y%f\n", fast, (float)py); 
+    printf("G1 F%d X0 Y%f\nG4\n", fast, (float)py); 
+    printf("G1 F%d X0 Y%f\n", fast, (float)py); 
     dump_hex(line, len);
     pe += de;
-    printf("\nG4\nG1 X%f Y%f E%f\n", (float)5*dx, (float)py, (float)pe); 
+    printf("\nG4\nG1 F%d X%f Y%f E%f\n", slow, (float)dx, (float)py, (float)pe); 
+    printf("G1 F%d X%f Y%f E%f\n", slow, (float)dx, (float)py, (float)pe); 
+    printf("G1 F%d X%f Y%f E%f\nG4\n", slow, (float)dx, (float)py, (float)pe); 
     py += dy;
 
   }
+
+  printf("G1 F%d X0 Y0\nG4\n", fast); 
+  printf("G1 F%d X0 Y0\nG4\n", fast); 
   
 }
