@@ -70,7 +70,7 @@ Image *pgm_open(char *name)
   
   if ( fp == NULL ) return NULL;
   img = malloc(sizeof(Image));
-  while(state != 10)
+  while(state < 10)
   {
     fgets(line, sizeof(line)-1, fp);
     // printf("; \n%d '%s'\n", state, line);
@@ -82,7 +82,7 @@ Image *pgm_open(char *name)
         if (line[0] != 'P' && line[1] != '5' ) 
         {
           fprintf(fout, "Error '%s' is not a PGM file!\n", name);
-          state = 10;
+          state = 11;
         } else
           state = 1;
         break;
@@ -103,7 +103,7 @@ Image *pgm_open(char *name)
     }    
   }
   fclose(fp);
-  if ( state == 10 )
+  if ( state > 10 )
   {
     free(img);
     img = NULL;
